@@ -58,3 +58,16 @@ void salva_playlist_no_arquivo(Playlist *playlist, const char *lista_musicas) {
 
     fclose(arquivo);
 }
+
+void exibe_playlist_por_cad(Playlist *playlist) {
+    Node *current = playlist->head;
+    printf(">> Playlist ordenada por cadastro:\n\n");
+    if (current != NULL) {
+        do {
+            printf("Artista: %s, Musica: %s\n", current->artista, current->musica);
+            current = current->next;
+        } while (current != playlist->head);
+    } else {
+        printf("\n>> Playlist vazia!\n");
+    }
+}
