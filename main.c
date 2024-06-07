@@ -110,3 +110,29 @@ void exibe_playlist_por_musica(Playlist *playlist) {
 
     free(lista);
 }
+
+void insere_musica(Playlist *playlist, const char *artista, const char *musica) {
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    if(new_node == NULL){
+        printf("Erro ao alocar memoria");
+        exit(1);
+    }
+    strcpy(new_node->artista, artista);
+    strcpy(new_node->musica, musica);
+
+    if (playlist->head == NULL) {
+        new_node->next = new_node;
+        new_node->prev = new_node;
+        playlist->head = new_node;
+        playlist->tail = new_node;
+        playlist->current = new_node;
+    } else {
+        new_node->next = playlist->head;
+        new_node->prev = playlist->tail;
+        playlist->tail->next = new_node;
+        playlist->head->prev = new_node;
+        playlist->tail = new_node;
+    }
+
+    salva_playlist_no_arquivo(playlist, "lista_musicas.txt"); 
+}
