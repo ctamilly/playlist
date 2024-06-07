@@ -23,3 +23,38 @@ void cria_playlist(Playlist *playlist) {
     playlist->current = NULL;
 }
 
+void abre_arquivo(Playlist *playlist, const char *lista_musicas) {
+    FILE *arquivo = fopen(lista_musicas, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo");
+        exit(1);
+    }
+
+    char line[100];
+    while (fgets(line, sizeof(line), arquivo)) {
+        char artista[50];
+        char musica[50];
+        sscanf(line, "%[^;];%[^\n]", artista, musica);
+        insere_musica(playlist, artista, musica);
+    }
+
+    fclose(arquivo);
+}
+
+void salva_playlist_no_arquivo(Playlist *playlist, const char *lista_musicas) {
+    FILE *arquivo = fopen(lista_musicas, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita");
+        exit(1);
+    }
+
+    Node *current = playlist->head;
+    if (current != NULL) {
+        do {
+            fprintf(arquivo, "%s;%s\n", current->artista, current->musica);
+            current = current->next;
+        } while (current != playlist->head);
+    }
+
+    fclose(arquivo);
+}
