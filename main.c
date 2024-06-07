@@ -228,3 +228,69 @@ void exibe_menu() {
     printf("9. Sair\n");
     printf("\nEscolha uma opcao: ");
 }
+
+int main() {
+    Playlist playlist;
+    cria_playlist(&playlist);
+
+    abre_arquivo(&playlist, "lista_musicas.txt");
+
+    int opcao;
+    char artista[50], musica[50];
+
+    do {
+        exibe_menu();
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                exibe_playlist_por_cad(&playlist);
+                break;
+            case 2:
+                exibe_playlist_por_musica(&playlist);
+                break;
+            case 3:
+                printf("Digite o nome do artista: ");
+                scanf(" %[^\n]", artista);
+                printf("Digite o nome da musica: ");
+                scanf(" %[^\n]", musica);
+                insere_musica(&playlist, artista, musica);
+                break;
+            case 4:
+                printf("Digite o nome da musica a ser removida: ");
+                scanf(" %[^\n]", musica);
+                remove_musica(&playlist, musica);
+                break;
+            case 5:
+                printf("Digite o nome da musica a ser buscada: ");
+                scanf(" %[^\n]", musica);
+                Node *encontrada = busca_musica(&playlist, musica);
+                if (encontrada) {
+                    printf("\n >> Musica encontrada: %s - %s\n", encontrada->artista, encontrada->musica);
+                } else {
+                    printf(">> Musica nao encontrada!\n");
+                }
+                break;
+            case 6:
+                printf("Digite o nome da musica que quer tocar: ");
+                scanf(" %[^\n]", musica);
+                seleciona_musica(&playlist, musica);
+                break;
+            case 7:
+                proxima_musica(&playlist);
+                break;
+            case 8:
+                musica_anterior(&playlist);
+                break;
+            case 9:
+                printf(">> Programa finalizado!\n");
+                break;
+            default:
+                printf(">> Opcao invalida!\n");
+                break;
+        }
+
+    } while (opcao != 9);
+
+    return 0;
+}
