@@ -214,3 +214,17 @@ void musica_anterior(Playlist *playlist) {
         printf(">> Playlist vazia!\n");
     }
 }
+
+void exibe_menu() {
+    printf("\n---- Menu ----\n\n");
+    printf("1. Exibir playlist na ordem de cadastro\n");
+    printf("2. Exibir playlist ordenada por musica\n");
+    printf("3. Inserir nova musica\n");
+    printf("4. Remover uma musica\n");
+    printf("5. Buscar musica\n");
+    printf("6. Selecionar uma musica para tocar\n");
+    printf("7. Avancar para proxima musica\n");
+    printf("8. Retornar para musica anterior\n");
+    printf("9. Sair\n");
+    printf("\nEscolha uma opcao: ");
+}
