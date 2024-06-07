@@ -136,3 +136,40 @@ void insere_musica(Playlist *playlist, const char *artista, const char *musica) 
 
     salva_playlist_no_arquivo(playlist, "lista_musicas.txt"); 
 }
+
+void remove_musica(Playlist *playlist, const char *musica) {
+    Node *current = playlist->head;
+    if (current == NULL) {
+        printf(">> Playlist vazia!\n");
+        return;
+    }
+
+    do {
+        if (strcasecmp(current->musica, musica) == 0) {
+            if (current == playlist->head && current == playlist->tail) {
+                playlist->head = NULL;
+                playlist->tail = NULL;
+                playlist->current = NULL;
+            } else {
+                current->prev->next = current->next;
+                current->next->prev = current->prev;
+                if (current == playlist->head) {
+                    playlist->head = current->next;
+                }
+                if (current == playlist->tail) {
+                    playlist->tail = current->prev;
+                }
+                if (current == playlist->current) {
+                    playlist->current = current->next;
+                }
+            }
+            free(current);
+            salva_playlist_no_arquivo(playlist, "lista_musicas.txt"); // Salva a playlist atualizada no arquivo existente
+            printf(">> Musica removida com sucesso!\n");
+            return;
+        }
+        current = current->next;
+    } while (current != playlist->head);
+
+    printf(">> Musica nao encontrada!\n");
+}
