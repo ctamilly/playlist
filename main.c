@@ -173,3 +173,26 @@ void remove_musica(Playlist *playlist, const char *musica) {
 
     printf(">> Musica nao encontrada!\n");
 }
+
+Node* busca_musica(Playlist *playlist, const char *musica) {
+    Node *current = playlist->head;
+    if (current != NULL) {
+        do {
+            if (strcasecmp(current->musica, musica) == 0) {
+                return current;
+            }
+            current = current->next;
+        } while (current != playlist->head);
+    }
+    return NULL;
+}
+
+void seleciona_musica(Playlist *playlist, const char *musica) {
+    Node *encontrada = busca_musica(playlist, musica);
+    if (encontrada != NULL) {
+        playlist->current = encontrada;
+        printf("\n>> Tocando agora: %s - %s\n", playlist->current->artista, playlist->current->musica);
+    } else {
+        printf(">> Musica nao encontrada!\n");
+    }
+}
