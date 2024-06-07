@@ -71,3 +71,42 @@ void exibe_playlist_por_cad(Playlist *playlist) {
         printf("\n>> Playlist vazia!\n");
     }
 }
+
+void exibe_playlist_por_musica(Playlist *playlist) {
+    int contador = 0;
+    Node *current = playlist->head;
+    printf(">> Playlist ordenada por musica:\n\n");
+    if (current != NULL) {
+        do {
+            contador++;
+            current = current->next;
+        } while (current != playlist->head);
+    }
+
+    Node **lista = malloc(contador * sizeof(Node *));
+    if(lista == NULL){
+        printf("Erro ao alocar memoria");
+        exit(1);
+    }
+    current = playlist->head;
+    for (int i = 0; i < contador; i++) {
+        lista[i] = current;
+        current = current->next;
+    }
+
+    for (int i = 0; i < contador - 1; i++) {
+        for (int j = i + 1; j < contador; j++) {
+            if (strcasecmp(lista[i]->musica, lista[j]->musica) > 0) {
+                Node *temp = lista[i];
+                lista[i] = lista[j];
+                lista[j] = temp;
+            }
+        }
+    }
+
+    for (int i = 0; i < contador; i++) {
+        printf("Artista: %s, Musica: %s\n", lista[i]->artista, lista[i]->musica);
+    }
+
+    free(lista);
+}
