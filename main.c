@@ -196,3 +196,21 @@ void seleciona_musica(Playlist *playlist, const char *musica) {
         printf(">> Musica nao encontrada!\n");
     }
 }
+
+void proxima_musica(Playlist *playlist) {
+    if (playlist->current != NULL) {
+        playlist->current = playlist->current->next;
+        printf("\n>> Tocando agora: %s - %s\n", playlist->current->artista, playlist->current->musica);
+    } else {
+        printf(">> Playlist vazia!\n");
+    }
+}
+
+void musica_anterior(Playlist *playlist) {
+    if (playlist->current != NULL) {
+        playlist->current = playlist->current->prev;
+        printf("\n>> Tocando agora: %s - %s\n", playlist->current->artista, playlist->current->musica);
+    } else {
+        printf(">> Playlist vazia!\n");
+    }
+}
